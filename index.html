@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Nebura Family | Legacy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --ocean-blue: #005f73;
+            --sand-beige: #f1f1e6;
+            --palm-green: #2d6a4f;
+            --deep-navy: #001219;
+            --white: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--sand-beige);
+            color: var(--deep-navy);
+        }
+
+        header {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        h1, h2 { font-family: 'Playfair Display', serif; }
+
+        .container { max-width: 1100px; margin: auto; padding: 20px; }
+
+        /* Family Tree Grid */
+        .family-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .branch-card {
+            background: var(--white);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--ocean-blue);
+            transition: transform 0.3s;
+        }
+
+        .branch-card:hover { transform: translateY(-5px); }
+
+        .tag { font-size: 0.8rem; color: var(--palm-green); font-weight: bold; text-transform: uppercase; }
+
+        /* Music Player Styling */
+        .music-player {
+            background: var(--deep-navy);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 40px 0;
+            text-align: center;
+        }
+
+        audio { width: 100%; margin-top: 10px; filter: sepia(20%) saturate(70%) grayscale(1) contrast(99%) invert(12%); }
+
+        /* Memories Section */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+
+        .gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        footer { text-align: center; padding: 40px; font-size: 0.9rem; opacity: 0.7; }
+
+    </style>
+</head>
+<body>
+
+    <div id="passwordOverlay" style="
+    position: fixed; 
+    top: 0; left: 0; width: 100%; height: 100%; 
+    background: var(--ocean-blue); 
+    z-index: 9999; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    text-align: center;
+    color: white;">
+    
+    <div style="background: white; padding: 40px; border-radius: 20px; color: #333; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+        <h2 style="font-family: 'Playfair Display', serif;">The Nebura Family</h2>
+        <p>Please enter the family password to enter our legacy site.</p>
+        
+        <input type="password" id="familyPass" placeholder="Password" style="
+            width: 80%; 
+            padding: 12px; 
+            margin: 20px 0; 
+            border: 1px solid #ccc; 
+            border-radius: 8px;
+            text-align: center;">
+        <br>
+        <button onclick="checkPassword()" style="
+            background: var(--palm-green); 
+            color: white; 
+            border: none; 
+            padding: 12px 30px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: bold;">Enter Site</button>
+        <p id="errorMsg" style="color: red; display: none; margin-top: 10px; font-size: 0.8rem;">Incorrect Password. Try again.</p>
+    </div>
+</div>
+
+<script>
+    function checkPassword() {
+        const passwordInput = document.getElementById('familyPass').value;
+        const errorMsg = document.getElementById('errorMsg');
+        
+        // SET YOUR PASSWORD HERE (Change 'Nebura2026' to whatever you like)
+        const secretWord = "Nebura2026"; 
+
+        if (passwordInput === secretWord) {
+            document.getElementById('passwordOverlay').style.display = 'none';
+            // Save to session so they don't have to re-enter it every time they click a link
+            sessionStorage.setItem('familyAuth', 'true');
+        } else {
+            errorMsg.style.display = 'block';
+        }
+    }
+
+    // Check if they already logged in during this visit
+    if (sessionStorage.getItem('familyAuth') === 'true') {
+        document.getElementById('passwordOverlay').style.display = 'none';
+    }
+</script>
+
+
+<header>
+    <p class="tag" style="color: #fff;">Founded by Neneia Kureta & Burera Temati</p>
+    <h1>The Nebura Family</h1>
+    <p>Our Roots Run Deep Like the Great Reefs</p>
+</header>
+
+<div class="container">
+    
+    <section id="tree">
+        <h2 style="text-align: center;">The 8 Branches</h2>
+        <div class="family-grid" id="familyGrid">
+            </div>
+    </section>
+
+    <section class="music-player">
+        <h3>Island Rhythms</h3>
+        <p id="nowPlaying">Select a track to play</p>
+        <audio id="audioPlayer" controls src=""></audio>
+        <div style="margin-top: 15px; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+            <button onclick="playTrack('https://TioteeRibabaiti.publit.io/file/nootouee-ueen-moroni-cover-2018-by-cool-later-ft-run-up-prod-by-dj-binlope-nooto-side-studio.mp3')">Track 1</button>
+            <button onclick="playTrack('https://TioteeRibabaiti.publit.io/file/nootouee-miss-rt-by-kureta-ribabaiti.mp3')">Track 2</button>
+            <button onclick="playTrack('https://TioteeRibabaiti.publit.io/file/nootouee-e-raraititi-moan-waen-by-nooto-side-studio.mp3')">Track 3</button>
+            <button onclick="playTrack('https://TioteeRibabaiti.publit.io/file/nootouee-ai-tera-te-iango-irou-nebura-kava-bar-studio.mp3')">Track 4</button>
+            <button onclick="playTrack('https://TioteeRibabaiti.publit.io/file/nootouee-nootouee-ae-tangiraki-nebura-kava-bar-studio.mp3')">Track 5</button>
+            </div>
+    </section>
+
+    <section class="life-events">
+    <div class="events-container">
+        <div class="event-box birthday-box">
+            <h2>Upcoming Birthdays 🎂</h2>
+            <ul id="birthdayList">
+                <li><strong>Jan 12:</strong> Butaake Neneia</li>
+                <li><strong>Feb 05:</strong> Takero Mangang</li>
+                </ul>
+        </div>
+
+        <div class="event-box memorial-box">
+            <h2>In Loving Memory 🕊️</h2>
+            <div id="memorialList">
+                <p>Honoring those who have returned to the ancestors.</p>
+                <div class="memorial-item">
+                    <strong>Neneia Kureta</strong>
+                    <span>19XX — 20XX</span>
+                </div>
+                <div class="memorial-item">
+                    <strong>Burera Temati</strong>
+                    <span>19XX — 20XX</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .life-events { margin: 60px 0; }
+    .events-container { 
+        display: flex; 
+        gap: 30px; 
+        flex-wrap: wrap; 
+    }
+    .event-box { 
+        flex: 1; 
+        min-width: 300px; 
+        padding: 30px; 
+        border-radius: 15px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    .birthday-box { 
+        background: #e9f5f8; /* Soft blue */
+        border-top: 5px solid var(--ocean-blue);
+    }
+    .memorial-box { 
+        background: #f8f8f8; /* Soft grey/white */
+        border-top: 5px solid #555; /* Neutral/Reverent color */
+    }
+    .birthday-box ul { list-style: none; padding: 0; }
+    .birthday-box li { padding: 10px 0; border-bottom: 1px solid #d1e3e7; }
+    
+    .memorial-item { 
+        padding: 15px 0; 
+        border-bottom: 1px solid #ddd; 
+        font-style: italic;
+    }
+    .memorial-item strong { display: block; font-size: 1.1rem; font-style: normal; }
+</style>
+
+    <section id="memories">
+        <h2>Family Memories & Stories</h2>
+        <div class="gallery">
+            <img src="https://i.postimg.cc/wvQyMXKn/Sep-24-Doc-13-17.jpg" alt="Family Reunion" title="Click to view story">
+            <img src="https://i.postimg.cc/qM5tNBYk/Sep-24-Doc-9-1.jpg" alt="Grandparents House">
+            <img src="https://i.postimg.cc/8P2p879b/Sep-24-Doc-13-19.jpg" alt="Traditional Dance">
+            </div>
+    </section>
+
+</div>
+
+<section id="update-form" class="update-section">
+    <div class="container">
+        <div class="form-card">
+            <h2>Update the Family Tree 🌿</h2>
+            <p>New baby? Recently married? Found an old photo? Send the details below to update our family records.</p>
+            
+            <form action="https://formspree.io/f/your-unique-id" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" name="sender-name" placeholder="Who is sending this?" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Update Type</label>
+                        <select name="update-type">
+                            <option value="new-member">New Family Member (Birth/Marriage)</option>
+                            <option value="birthday">Birthday Update</option>
+                            <option value="memorial">Memorial/In Memoriam</option>
+                            <option value="photo">New Family Photo/Story</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Branch</label>
+                        <select name="family-branch">
+                            <option value="Butaake">Butaake's Branch</option>
+                            <option value="Tebike">Tebike's Branch</option>
+                            <option value="Ribabaiti">Ribabaiti's Branch</option>
+                            <option value="Bainrebu">Bainrebu's Branch</option>
+                            <option value="Riina">Riina's Branch</option>
+                            <option value="Waerei">Waerei's Branch</option>
+                            <option value="Tibwau">Tibwau's Branch</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Details / Story</label>
+                    <textarea name="message" rows="4" placeholder="Tell us the names, dates, and any stories..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">Send Update to Admin</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<style>
+    .update-section { background: var(--ocean-blue); padding: 60px 0; color: white; }
+    .form-card { background: white; color: var(--deep-navy); padding: 40px; border-radius: 20px; max-width: 600px; margin: auto; }
+    .form-group { margin-bottom: 20px; display: flex; flex-direction: column; }
+    .form-row { display: flex; gap: 20px; }
+    .form-row .form-group { flex: 1; }
+    
+    label { font-weight: 600; margin-bottom: 8px; font-size: 0.9rem; }
+    input, select, textarea { 
+        padding: 12px; 
+        border: 1px solid #ddd; 
+        border-radius: 8px; 
+        font-family: inherit;
+    }
+    
+    .submit-btn {
+        background: var(--palm-green);
+        color: white;
+        border: none;
+        padding: 15px 30px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        width: 100%;
+        transition: background 0.3s;
+    }
+    .submit-btn:hover { background: #1b4332; }
+</style>
+
+<footer>
+    <p>&copy; 2024 The Nebura Family Legacy. | <a href="#">Admin Login</a></p>
+</footer>
+
+<script>
+    // DATA: This is where you add more family members in the future
+    const familyData = [
+        { name: "Butaake Neneia", spouse: "Koraubara Tiroia", grandkids: "3 Grandkids, 1 Great-Grandkid" },
+        { name: "Tebike Neneia", spouse: "Takero Mangang", grandkids: "List Names Here..." },
+        { name: "Ribabaiti Neneia", spouse: "Taatu Baiteke", grandkids: "List Names Here..." },
+        { name: "Bainrebu Neneia", spouse: "Karubea Taam", grandkids: "List Names Here..." },
+        { name: "Riina Neneia", spouse: "Kaoti Nakareke", grandkids: "List Names Here..." },
+        { name: "Waerei Neneia", spouse: "Taiman Tibwere", grandkids: "List Names Here..." },
+        { name: "Tibwau Neneia", spouse: "Ioata Taneai", grandkids: "List Names Here..." }
+    ];
+
+    // Function to load the family cards
+    const grid = document.getElementById('familyGrid');
+    familyData.forEach(member => {
+        const card = `
+            <div class="branch-card">
+                <span class="tag">Family Branch</span>
+                <h3>${member.name}</h3>
+                <p><strong>Spouse:</strong> ${member.spouse}</p>
+                <hr>
+                <p style="font-size: 0.85rem;"><strong>Generations:</strong><br>${member.grandkids}</p>
+            </div>
+        `;
+        grid.innerHTML += card;
+    });
+
+    // Music Player Logic
+    function playTrack(file, name) {
+        const player = document.getElementById('audioPlayer');
+        const text = document.getElementById('nowPlaying');
+        player.src = file;
+        player.play();
+        text.innerText = "Now Playing: " + name;
+    }
+</script>
+
+</body>
+</html>
